@@ -58,23 +58,23 @@ static NSString *StringByTrimming(NSString *aString) {
   static NSDictionary *result;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      @autoreleasepool {
+    @autoreleasepool {
 #if TESTING
-          NSString *archiveName = @"NBPhoneNumberMetaDataForTesting";
+      NSString *archiveName = @"NBPhoneNumberMetaDataForTesting";
 #else
-          NSString *archiveName = @"NBPhoneNumberMetaData";
+      NSString *archiveName = @"NBPhoneNumberMetaData";
 #endif
 
-          NSString *path = [[NSBundle bundleForClass:NBMetadataHelper.class] pathForResource:archiveName ofType:@"plist"];
-          NSData *fileContent = [NSData dataWithContentsOfFile:path];
-          if (fileContent != nil) {
-              NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:fileContent];
-              unarchiver.requiresSecureCoding = YES;
-              NSSet *allowedClasses = [NSSet setWithArray:@[NSArray.class, NSDictionary.class, NSNull.class, NSString.class, NSNumber.class]];
-              result = (NSDictionary *)[unarchiver decodeObjectOfClasses:allowedClasses forKey:NSKeyedArchiveRootObjectKey];
-          }
-          NSAssert(result != nil, @"%@.plist missing or corrupt", archiveName);
+      NSString *path = [[NSBundle bundleForClass:NBMetadataHelper.class] pathForResource:archiveName ofType:@"plist"];
+      NSData *fileContent = [NSData dataWithContentsOfFile:path];
+      if (fileContent != nil) {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:fileContent];
+        unarchiver.requiresSecureCoding = YES;
+        NSSet *allowedClasses = [NSSet setWithArray:@[NSArray.class, NSDictionary.class, NSNull.class, NSString.class, NSNumber.class]];
+        result = (NSDictionary *)[unarchiver decodeObjectOfClasses:allowedClasses forKey:NSKeyedArchiveRootObjectKey];
       }
+      NSAssert(result != nil, @"%@.plist missing or corrupt", archiveName);
+    }
   });
   return result;
 }
