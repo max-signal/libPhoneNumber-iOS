@@ -59,13 +59,7 @@ static NSString *StringByTrimming(NSString *aString) {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     @autoreleasepool {
-#if TESTING
-      NSString *archiveName = @"NBPhoneNumberMetaDataForTesting";
-#else
-      NSString *archiveName = @"NBPhoneNumberMetaData";
-#endif
-
-      NSString *path = [[NSBundle bundleForClass:NBMetadataHelper.class] pathForResource:archiveName ofType:@"plist"];
+      NSString *path = [[NSBundle bundleForClass:NBMetadataHelper.class] pathForResource:@"NBPhoneNumberMetaData" ofType:@"plist"];
       NSData *fileContent = [NSData dataWithContentsOfFile:path];
       if (fileContent != nil) {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:fileContent error:NULL];
@@ -73,7 +67,7 @@ static NSString *StringByTrimming(NSString *aString) {
         NSSet *allowedClasses = [NSSet setWithArray:@[NSArray.class, NSDictionary.class, NSNull.class, NSString.class, NSNumber.class]];
         result = (NSDictionary *)[unarchiver decodeObjectOfClasses:allowedClasses forKey:NSKeyedArchiveRootObjectKey];
       }
-      NSAssert(result != nil, @"%@.plist missing or corrupt", archiveName);
+      NSAssert(result != nil, @"NBPhoneNumberMetaData.plist missing or corrupt");
     }
   });
   return result;
