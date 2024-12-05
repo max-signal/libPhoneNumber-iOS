@@ -68,7 +68,7 @@ static NSString *StringByTrimming(NSString *aString) {
       NSString *path = [[NSBundle bundleForClass:NBMetadataHelper.class] pathForResource:archiveName ofType:@"plist"];
       NSData *fileContent = [NSData dataWithContentsOfFile:path];
       if (fileContent != nil) {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:fileContent];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:fileContent error:NULL];
         unarchiver.requiresSecureCoding = YES;
         NSSet *allowedClasses = [NSSet setWithArray:@[NSArray.class, NSDictionary.class, NSNull.class, NSString.class, NSNumber.class]];
         result = (NSDictionary *)[unarchiver decodeObjectOfClasses:allowedClasses forKey:NSKeyedArchiveRootObjectKey];
