@@ -42,6 +42,7 @@ static NSString *StringByTrimming(NSString *aString) {
     _metadataCache = [[NSCache alloc] init];
     _metadataMapCache = [[NSCache alloc] init];
     _phoneNumberDataDictionary = [[self class] phoneNumberDataMap];
+    [self countryCodeToCountryNumberDictionary];
   }
 
   return self;
